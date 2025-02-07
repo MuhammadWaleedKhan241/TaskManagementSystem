@@ -1,31 +1,26 @@
 <template>
-<div class="container"> 
-
-    <h1>task management system</h1>
-    <button  >Add Task</button>
-    <ul>
-        <li v-for="task in tasks" :key="task">
-            {{task}}
-        </li>
-    </ul>
-
-</div>
+    <div>
+        <h2>Welcome to Dashboard</h2>
+        <button @click="logout">Logout</button>
+    </div>
 </template>
 
-
 <script>
-export default{
-    data(){
-        return{
-            tasks:['Ali','Ahmad',]
+
+
+export default {
+    methods: {
+        async logout() {
+            try {
+                await api.post('/logout', {}, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                });
+                localStorage.removeItem('token');
+                this.$router.push('/login');
+            } catch (error) {
+                console.error(error);
+            }
         }
     }
-}
+};
 </script>
-
-
-<style scoped>
-
-
-
-</style>
